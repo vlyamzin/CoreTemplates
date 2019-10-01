@@ -6,9 +6,47 @@
   <base href="/">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <style>
+    html, body {
+      border: none;
+      margin: 0;
+      padding: 0;
+      outline: none;
+      background: #0a85d7 !important;
+      overflow: hidden;
+      width: 100vw;
+      min-width: 100vw;
+      height: 100vh;
+      min-height: 100vh;
+    }
+    #container {
+      width: 100%;
+      height: calc(100% - 60px);
+      margin-top: 60px;
+      background: #fff;
+      border-radius: 10px 10px 0 0;
+      transition: transform 1s;
+    }
+
+    #container.hidden {
+      transform: translate3d(0, 100vh, 0);
+    }
+  </style>
+
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
 </head>
 <body>
+<div id="container" class="hidden">
   <app-root></app-root>
+</div>
+
+<script type="application/javascript">
+    document.addEventListener('officeLoaded', function () {
+        var container = document.getElementById('container');
+        container.classList.remove('hidden');
+    }, false)
+</script>
 </body>
 </html>

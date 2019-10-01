@@ -1,0 +1,17 @@
+@import "../assets/styles/styles";
+
+.btn-group {
+  display: flex;
+}
+
+.dropdown-menu {
+
+  li {
+    .disabled {
+
+    }
+    &:hover {
+      background: $additionalBackground;
+    }
+  }
+}
