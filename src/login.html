@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Authenticate with Auth0</title>
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+</head>
+<body>
+<button onclick="openLinkedInAuth()">Sign In</button>
+<script type="application/javascript">
+    function openLinkedInAuth() {
+        var redirectUrl = 'https://core-templates.web.app/redirect.html';
+        var state = 'DCEeFWf45A53sdfKef525';
+        var url = 'https://www.linkedin.com/uas/oauth2/authorization?response_type=code' +
+            '&client_id=773tcfx0hhon87' +
+            '&redirect_uri='+ redirectUrl +
+            '&state=' + state +'' +
+            '&scope=r_liteprofile';
+        document.location.href = url;
+    }
+</script>
+</body>
+</html>

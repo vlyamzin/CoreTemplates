@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Redirect</title>
+
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+</head>
+<body>
+<div>Redirected</div>
+<button id="close" onclick="getToken()" disabled>Close</button>
+
+<script type="application/javascript">
+
+    Office.initialize = function () {
+        var btn = document.getElementById("close");
+        btn.disabled = false
+    };
+
+    function getQueryStringValue (key) {
+        return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+    }
+
+    function getToken() {
+      var code = getQueryStringValue('code');
+      var state = getQueryStringValue("state");
+
+      if (code) {
+          var xhr = new XMLHttpRequest();
+
+          xhr.open('POST', 'https://e79470bf.ngrok.io/li-token');
+          xhr.setRequestHeader('Content-type', 'application/json');
+          xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+
+          xhr.send(JSON.stringify({
+              'code': code,
+              'state': state,
+              'redirectUri': 'https://core-templates.web.app/redirect.html',
+          }));
+
+          xhr.onload = function() {
+              if (xhr.status >= 300) {
+                  Office.context.ui.messageParent(false);
+              } else {
+                  Office.context.ui.messageParent(true);
+              }
+          }
+      }
+
+  }
+
+  // getToken();
+</script>
+</body>
+</html>

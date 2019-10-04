@@ -2,6 +2,8 @@ import {Component} from '@angular/core';
 import {WordService} from './services/word.service';
 import * as headerLogo from '!raw-loader!../assets/images/base64/header-logo.txt';
 import * as footerLogo from '!raw-loader!../assets/images/base64/footer-logo.txt';
+import {environment} from '../environments/environment';
+import {UtilService} from './services/util.service';
 
 @Component({
   selector: 'app-root',
@@ -11,8 +13,9 @@ import * as footerLogo from '!raw-loader!../assets/images/base64/footer-logo.txt
 export class AppComponent {
   private readonly normalParagraph: Word.Interfaces.ParagraphUpdateData;
   private readonly titleParagraph: Word.Interfaces.ParagraphUpdateData;
+  private loginDialog: any;
 
-  constructor(private wordService: WordService) {
+  constructor(private wordService: WordService, private utilService: UtilService) {
     this.normalParagraph = {
       font: {
         size: 10,
@@ -23,6 +26,20 @@ export class AppComponent {
     this.titleParagraph = Object.assign({}, this.normalParagraph, {
       font: { size: 11, bold: true},
       lineSpacing: 16
+    });
+  }
+
+  public selectResource(): void {
+
+    Office.context.ui.displayDialogAsync(`${environment.host}/login.html`, {
+      width: 30,
+      height: 50
+    }, (result: any) => {
+      this.loginDialog = result.value;
+
+      if (this.loginDialog) {
+        this.loginDialog.addEventHandler(Office.EventType.DialogMessageReceived, this.processDialogMessage.bind(this));
+      }
     });
   }
 
@@ -124,11 +141,11 @@ export class AppComponent {
   }
 
   private async insertWorkExperience(context: Word.RequestContext): Promise<AppComponent> {
-    const title = context.document.body.insertParagraph('Word experience:', Word.InsertLocation.end);
+    const title = context.document.body.insertParagraph('Work experience:', Word.InsertLocation.end);
     const table = title.insertTable(1, 2, Word.InsertLocation.after);
     const border = table.getBorder(Word.BorderLocation.all);
 
-    this.wordService.createContentControl(table, 'word_experience');
+    this.wordService.createContentControl(table, 'work_experience');
 
     title.set(Object.assign({}, this.titleParagraph, {
       font: { size: 14, bold: true },
@@ -154,5 +171,11 @@ export class AppComponent {
     list.set(this.normalParagraph);
 
     return this;
+  }
+
+  private processDialogMessage(arg): void {
+        if (this.utilService.isTrue(arg.message.toLowerCase())) {
+          this.loginDialog.close();
+        }
   }
 }
