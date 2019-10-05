@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {contentControls} from '../content-control.config';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,10 @@ export class WordService {
     return await Word.run(async (context) => {
       return context;
     });
+  }
+
+  public getControl(context: Word.RequestContext, tagName: string): Word.ContentControl {
+    return context.document.contentControls.getByTag(tagName).getFirstOrNullObject();
   }
 
   public getControls(context: Word.RequestContext, tags: string[]): any {

@@ -2,8 +2,8 @@ import {Component} from '@angular/core';
 import {WordService} from './services/word.service';
 import * as headerLogo from '!raw-loader!../assets/images/base64/header-logo.txt';
 import * as footerLogo from '!raw-loader!../assets/images/base64/footer-logo.txt';
-import {environment} from '../environments/environment';
 import {UtilService} from './services/util.service';
+import {contentControls} from './content-control.config';
 
 @Component({
   selector: 'app-root',
@@ -26,20 +26,6 @@ export class AppComponent {
     this.titleParagraph = Object.assign({}, this.normalParagraph, {
       font: { size: 11, bold: true},
       lineSpacing: 16
-    });
-  }
-
-  public selectResource(): void {
-
-    Office.context.ui.displayDialogAsync(`${environment.host}/login.html`, {
-      width: 30,
-      height: 50
-    }, (result: any) => {
-      this.loginDialog = result.value;
-
-      if (this.loginDialog) {
-        this.loginDialog.addEventHandler(Office.EventType.DialogMessageReceived, this.processDialogMessage.bind(this));
-      }
     });
   }
 
@@ -89,12 +75,23 @@ export class AppComponent {
   }
 
   private insertName(context: Word.RequestContext): AppComponent {
-    const p: Word.Paragraph = context.document.body.insertParagraph('<User Name>', Word.InsertLocation.start);
+    const table: Word.Table = context.document.body.insertTable(1, 2, Word.InsertLocation.start);
+    const border = table.getBorder(Word.BorderLocation.all);
+    const firstColumn = table.getCellOrNullObject(0, 0);
+    const secondColumn = table.getCellOrNullObject(0, 1);
+    const p: Word.Paragraph = firstColumn.body.insertParagraph('<User Name>', Word.InsertLocation.start);
+    const imgPlaceholder: Word.Paragraph = secondColumn.body.insertParagraph(' ', Word.InsertLocation.start);
+
+    border.set({type: Word.BorderType.none});
 
     p.set({
       styleBuiltIn: Word.Style.title
     });
-    this.wordService.createContentControl(p, 'user_name');
+    imgPlaceholder.set({
+      alignment: Word.Alignment.right
+    });
+    this.wordService.createContentControl(p, contentControls.userName);
+    this.wordService.createContentControl(imgPlaceholder, contentControls.photo);
 
     return this;
   }
@@ -105,7 +102,7 @@ export class AppComponent {
     const list = text.insertParagraph('<Description>', Word.InsertLocation.after);
 
     list.startNewList();
-    this.wordService.createContentControl(list, 'experience_summary');
+    this.wordService.createContentControl(list, contentControls.experienceSummary);
 
     heading.set(this.titleParagraph);
     text.set(this.normalParagraph);
@@ -118,7 +115,7 @@ export class AppComponent {
     const title = context.document.body.insertParagraph('Technology/Methodology:', Word.InsertLocation.end);
     const table = title.insertTable(1, 4, Word.InsertLocation.after, [['<Group 1>', '<Group 2>', '<Group 3>', '<Group 4>']]);
     const border = table.getBorder(Word.BorderLocation.outside);
-    this.wordService.createContentControl(table, 'technologies');
+    this.wordService.createContentControl(table, contentControls.technologies);
 
     title.set(this.titleParagraph);
     table.set(Object.assign({}, this.normalParagraph, {alignment: Word.Alignment.centered}));
@@ -132,7 +129,7 @@ export class AppComponent {
     const list  = title.insertParagraph('<Certificate>', Word.InsertLocation.after);
 
     list.startNewList();
-    this.wordService.createContentControl(list, 'certifications');
+    this.wordService.createContentControl(list, contentControls.certifications);
 
     title.set(this.titleParagraph);
     list.set(this.normalParagraph);
@@ -145,7 +142,7 @@ export class AppComponent {
     const table = title.insertTable(1, 2, Word.InsertLocation.after);
     const border = table.getBorder(Word.BorderLocation.all);
 
-    this.wordService.createContentControl(table, 'work_experience');
+    this.wordService.createContentControl(table, contentControls.workExperience);
 
     title.set(Object.assign({}, this.titleParagraph, {
       font: { size: 14, bold: true },
@@ -173,9 +170,4 @@ export class AppComponent {
     return this;
   }
 
-  private processDialogMessage(arg): void {
-        if (this.utilService.isTrue(arg.message.toLowerCase())) {
-          this.loginDialog.close();
-        }
-  }
 }
