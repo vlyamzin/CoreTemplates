@@ -10,12 +10,14 @@ import {HttpClientModule} from '@angular/common/http';
 import { CoreBaseComponent } from './core-base/core-base.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule} from '@angular/forms';
+import { PublishComponent } from './publish/publish.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LinkedInComponent,
-    CoreBaseComponent
+    CoreBaseComponent,
+    PublishComponent
   ],
   imports: [
     BrowserModule,

@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {TypeaheadMatch} from 'ngx-bootstrap';
 import {HttpClient} from '@angular/common/http';
-import {environment} from '../../environments/environment';
-import {map} from 'rxjs/operators';
 import {MetadataService} from '../services/metadata.service';
 import {CoreBaseService} from '../services/core-base.service';
 
