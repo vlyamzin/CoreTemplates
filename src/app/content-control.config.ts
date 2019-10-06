@@ -4,5 +4,7 @@ export const contentControls = {
   experienceSummary: 'experience_summary',
   technologies: 'technologies',
   certifications: 'certifications',
-  workExperience: 'work_experience'
+  workExperience: 'work_experience',
+  email: 'email',
+  skype: 'skype'
 };

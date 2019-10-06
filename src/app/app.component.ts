@@ -79,18 +79,38 @@ export class AppComponent {
     const border = table.getBorder(Word.BorderLocation.all);
     const firstColumn = table.getCellOrNullObject(0, 0);
     const secondColumn = table.getCellOrNullObject(0, 1);
-    const p: Word.Paragraph = firstColumn.body.insertParagraph('<User Name>', Word.InsertLocation.start);
+    const name: Word.Paragraph = firstColumn.body.insertParagraph('<User Name>', Word.InsertLocation.start);
+    const email: Word.Paragraph = name.insertParagraph('<your-email@mail.com>', Word.InsertLocation.after);
+    const skype: Word.Paragraph = email.insertParagraph('<skype-login>', Word.InsertLocation.after);
     const imgPlaceholder: Word.Paragraph = secondColumn.body.insertParagraph(' ', Word.InsertLocation.start);
 
     border.set({type: Word.BorderType.none});
 
-    p.set({
+    name.set({
       styleBuiltIn: Word.Style.title
+    });
+    email.set({
+      font: {
+        size: 11,
+        bold: true,
+        italic: true,
+        name: 'Segoe UI'
+      }
+    });
+    skype.set({
+      font: {
+        size: 10,
+        bold: false,
+        italic: true,
+        name: 'Segoe UI'
+      }
     });
     imgPlaceholder.set({
       alignment: Word.Alignment.right
     });
-    this.wordService.createContentControl(p, contentControls.userName);
+    this.wordService.createContentControl(name, contentControls.userName);
+    this.wordService.createContentControl(email, contentControls.email);
+    this.wordService.createContentControl(skype, contentControls.skype);
     this.wordService.createContentControl(imgPlaceholder, contentControls.photo);
 
     return this;
@@ -98,7 +118,7 @@ export class AppComponent {
 
   private insertSummary(context: Word.RequestContext): AppComponent {
     const heading = context.document.body.insertParagraph('Summary of experience:', Word.InsertLocation.end);
-    const text = heading.insertParagraph('<Years> years in IT', Word.InsertLocation.after);
+    const text = heading.insertParagraph('<Years> years in IT:', Word.InsertLocation.after);
     const list = text.insertParagraph('<Description>', Word.InsertLocation.after);
 
     list.startNewList();
