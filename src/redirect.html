@@ -1,20 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Redirect</title>
+  <meta charset="UTF-8">
+  <title>Authorized</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      border: none;
+      outline: none;
+    }
+    #container {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
 
+    #logo {
+      width: 332px;
+      height: 81px;
+      background-image: url("assets/images/LI-Logo.png");
+    }
+
+    #text {
+      font-family: "Microsoft", Arial, sans-serif;
+      font-size: 20px;
+      line-height: 40px;
+    }
+  </style>
   <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
 </head>
 <body>
-<div>Redirected</div>
-<button id="close" onclick="getToken()" disabled>Close</button>
+<div id="container">
+  <div id="logo"></div>
+  <div id="text">Authorized</div>
+</div>
 
 <script type="application/javascript">
 
     Office.initialize = function () {
-        var btn = document.getElementById("close");
-        btn.disabled = false
+        getToken();
     };
 
     function getQueryStringValue (key) {
@@ -28,7 +56,7 @@
       if (code) {
           var xhr = new XMLHttpRequest();
 
-          xhr.open('POST', 'https://e79470bf.ngrok.io/li/token');
+          xhr.open('POST', 'https://c92c1cb3.ngrok.io/li/token');
           xhr.setRequestHeader('Content-type', 'application/json');
           xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
 
@@ -48,8 +76,6 @@
       }
 
   }
-
-  // getToken();
 </script>
 </body>
 </html>

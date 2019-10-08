@@ -1,21 +1,25 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {WordService} from './services/word.service';
 import * as headerLogo from '!raw-loader!../assets/images/base64/header-logo.txt';
 import * as footerLogo from '!raw-loader!../assets/images/base64/footer-logo.txt';
 import {UtilService} from './services/util.service';
 import {contentControls} from './content-control.config';
+import {MetadataService} from './services/metadata.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  public type: string;
+  public typeSelected: boolean;
   private readonly normalParagraph: Word.Interfaces.ParagraphUpdateData;
   private readonly titleParagraph: Word.Interfaces.ParagraphUpdateData;
   private loginDialog: any;
 
-  constructor(private wordService: WordService, private utilService: UtilService) {
+  constructor(private wordService: WordService,
+              private metadata: MetadataService) {
     this.normalParagraph = {
       font: {
         size: 10,
@@ -29,7 +33,15 @@ export class AppComponent {
     });
   }
 
-  public async generateTemplate(): Promise<void> {
+  async ngOnInit() {
+    this.type = await this.metadata.getItem('type') || 'Choose a template';
+    this.typeSelected = this.type !== 'Choose a template';
+  }
+
+  public async generateTemplate(type: string): Promise<void> {
+    this.type = type;
+    this.typeSelected = true;
+    this.metadata.setItem('type', type);
     const ctx = await this.wordService.getContext();
 
     ctx.document.body.clear();

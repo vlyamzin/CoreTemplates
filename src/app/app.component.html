@@ -1,14 +1,16 @@
 <div class="container">
   <div class="form-group" dropdown>
-    <label for="template-type">Template type</label>
+    <label class="custom" for="template-type">Template type</label>
     <div class="btn-group">
-      <div class="form-control dropdown-toggle" dropdownToggle
+      <div class="form-control dropdown-toggle"
+           [class.selected]="typeSelected"
+           dropdownToggle
            id="template-type" >
-        Choose a template <span class="caret"></span>
+        {{type}} <span class="caret"></span>
       </div>
       <ul id="dropdown-basic" class="dropdown-menu" *dropdownMenu
           role="menu">
-        <li role="menuitem" (click)="generateTemplate()"><a class="dropdown-item">Core Value</a></li>
+        <li role="menuitem" (click)="generateTemplate('Core Value')"><a class="dropdown-item">Core Value</a></li>
         <li role="menuitem" class="disabled"><a class="dropdown-item">Sevenval</a></li>
       </ul>
     </div>

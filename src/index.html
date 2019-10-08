@@ -8,6 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="assets/fonts/fonts.css">
   <style>
     html, body {
       border: none;
@@ -15,29 +16,83 @@
       padding: 0;
       outline: none;
       background: #0a85d7 !important;
-      overflow: hidden;
-      width: 100vw;
-      min-width: 100vw;
-      height: 100vh;
-      min-height: 100vh;
     }
-    #container {
-      width: 100%;
-      height: calc(100% - 60px);
-      margin-top: 60px;
-      background: #fff;
-      border-radius: 10px 10px 0 0;
+
+    #logo {
+      width: auto;
+      height: auto;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 10px;
       transition: transform 1s;
     }
 
+    #logo-container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      transition: transform 1s;
+    }
+
+    #logo .image {
+      width: 50px;
+      height: 50px;
+      margin-right: 20px;
+      background: url("assets/images/core_logo.png") top left no-repeat;
+    }
+
+    #logo .text > span {
+      font-size: 23px;
+      font-weight: 600;
+      letter-spacing: -1.5px;
+      transition: transform 1s;
+    }
+
+    #second {
+      color: #fff;
+    }
+
+    #logo-container.full {
+      transform: translate(15%, 50%);
+    }
+
+    #first.full {
+      transform: translate(0, -13px);
+    }
+
+    #second.full {
+      transform: translate(-65px, 13px);
+    }
+
+    #container {
+      width: 100%;
+      height: 100%;
+      margin-top: 70px;
+      padding: 20px 0;
+      background: #fff;
+      border-radius: 10px 10px 0 0;
+      transition: transform 1s;
+      overflow: auto;
+    }
+
     #container.hidden {
-      transform: translate3d(0, 100vh, 0);
+      transform: translate(0, 100%);
     }
   </style>
 
   <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
 </head>
 <body>
+<div id="logo-container" class="full">
+  <div id="logo" class="full">
+    <div class="image"></div>
+    <div class="text">
+      <span id="first" class="full">CORE</span>
+      <span id="second" class="full">TEMPLATES</span>
+    </div>
+  </div>
+</div>
 <div id="container" class="hidden">
   <app-root></app-root>
 </div>
@@ -45,7 +100,13 @@
 <script type="application/javascript">
     document.addEventListener('officeLoaded', function () {
         var container = document.getElementById('container');
+        var logo = document.getElementById('logo-container');
+        var first = document.getElementById('first');
+        var second = document.getElementById('second');
         container.classList.remove('hidden');
+        logo.classList.remove('full');
+        first.classList.remove('full');
+        second.classList.remove('full');
     }, false)
 </script>
 </body>

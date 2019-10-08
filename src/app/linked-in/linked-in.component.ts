@@ -26,8 +26,8 @@ export class LinkedInComponent implements OnInit {
 
   public toggle($event): void {
     if ($event.target && $event.target.checked) {
-      // this.showAuthDialog();
-      this.loadInfo();
+      this.showAuthDialog();
+      // this.loadInfo();
       this.changeState(true);
     } else {
       this.clear();
@@ -71,6 +71,7 @@ export class LinkedInComponent implements OnInit {
     } else {
       this.changeState(false);
     }
+    this.loadInfo();
     this.loginDialog.close();
   }
 

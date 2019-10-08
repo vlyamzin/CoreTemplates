@@ -1,15 +1,17 @@
-<label for="user-lookup">CoreBase User</label>
-<input [(ngModel)]="selectedUser"
-       [typeaheadAsync]="true"
-       [typeahead]="users"
-       [typeaheadItemTemplate]="customItemTemplate"
-       (typeaheadLoading)="changeTypeaheadLoading($event)"
-       (typeaheadOnSelect)="typeaheadOnSelect($event)"
-       [typeaheadOptionsLimit]="7"
-       typeaheadOptionField="getName()"
-       placeholder="Search for user name"
-       class="form-control" id="user-lookup">
-<div *ngIf="typeaheadLoading">Loading</div>
-<ng-template #customItemTemplate let-model="item">
-  <h5>{{model.firstname}} {{ model.lastname }}</h5>
-</ng-template>
+<div class="form-group">
+  <label class="custom" for="user-lookup">CoreBase User</label>
+  <input [(ngModel)]="selectedUser"
+         [typeaheadAsync]="true"
+         [typeahead]="users"
+         [typeaheadItemTemplate]="customItemTemplate"
+         (typeaheadLoading)="changeTypeaheadLoading($event)"
+         (typeaheadOnSelect)="typeaheadOnSelect($event)"
+         [typeaheadOptionsLimit]="7"
+         typeaheadOptionField="getName()"
+         placeholder="Search for user name"
+         class="form-control" id="user-lookup">
+  <div *ngIf="typeaheadLoading">Loading</div>
+  <ng-template #customItemTemplate let-model="item">
+    <h5>{{model.firstname}} {{ model.lastname }}</h5>
+  </ng-template>
+</div>

@@ -1,12 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Authenticate with Auth0</title>
+  <meta charset="UTF-8">
+  <title>Authenticate with Auth0</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      border: none;
+      outline: none;
+    }
+    #container {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #logo {
+      width: 332px;
+      height: 81px;
+      margin-bottom: 40px;
+      background-image: url("assets/images/LI-Logo.png");
+    }
+
+    #sign-in {
+      padding: 10px 30px;
+      font-family: "Microsoft", Arial, sans-serif;
+      color: #fff;
+      background: #2867b2;
+      border-radius: 5px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  </style>
   <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
 </head>
 <body>
-<button onclick="openLinkedInAuth()">Sign In</button>
+<div id="container">
+  <div id="logo"></div>
+  <button id="sign-in" onclick="openLinkedInAuth()">Sign in</button>
+</div>
 <script type="application/javascript">
     function openLinkedInAuth() {
         var redirectUrl = 'https://core-templates.web.app/redirect.html';
